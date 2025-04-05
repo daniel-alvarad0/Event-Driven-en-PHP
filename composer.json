@@ -1,0 +1,13 @@
+{
+    "require": {
+        "react/http": "^1.11",
+        "react/event-loop": "^1.5",
+        "react/filesystem": "^0.1.2",
+        "react/mysql": "^0.6.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "wyrihaximus/composer-update-bin-autoload-path": true
+        }
+    }
+}
