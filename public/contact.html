@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Contacto</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <h1>Reservar mesa</h1>
+    <a href="/">Volver al inicio</a>
+    <form id="reservaForm">
+        <div class="form-group">
+            <label for="nombre">Nombre completo:</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="fecha">Fecha de reserva:</label>
+            <input type="date" id="fecha" name="fecha" required>
+        </div>
+        <div class="form-group">
+            <label for="hora">Hora de reserva:</label>
+            <input type="time" id="hora" name="hora" required>
+        </div>
+        <div class="form-group">
+            <label for="personas">Número de personas:</label>
+            <input type="number" id="personas" name="personas" placeholder="Número de personas" min="1" max="20"
+                required>
+        </div>
+        <button type="submit">Reservar mesa</button>
+    </form>
+    <div id="mensaje" class="mensaje"></div>
+    <script>
+        document.getElementById('reservaForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('mensaje').innerHTML = `Reserva creada con éxito. ID: ${result.id}`;
+                    document.getElementById('mensaje').className = 'mensaje exito';
+                    document.getElementById('reservaForm').reset();
+                } else {
+                    document.getElementById('mensaje').innerHTML = `Error: ${result.error || 'No se pudo procesar la reserva'}`;
+                    document.getElementById('mensaje').className = 'mensaje error';
+                }
+            } catch (error) {
+                document.getElementById('mensaje').innerHTML = 'Error de conexión con el servidor';
+                document.getElementById('mensaje').className = 'mensaje error';
+            }
+        });
+    </script>
+</body>
+
+</html>
