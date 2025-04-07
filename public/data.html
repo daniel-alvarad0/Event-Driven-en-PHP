@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Gestión de Reservas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+  <h1>Gestión de Reservas</h1>
+  <a href="/">Volver al inicio</a>
+  <a href="/contact">Nueva reserva</a>
+
+  <div id="reservas-container">
+    <div class="loading">Cargando reservas...</div>
+    <table id="reservas-tabla" style="display: none;">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Personas</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="reservas-body"></tbody>
+    </table>
+    <div id="no-reservas" style="display: none;">No hay reservas disponibles.</div>
+  </div>
+
+  <div id="form-edicion" style="display: none;">
+    <h2>Editar Reserva</h2>
+    <form id="editar-form">
+      <input type="hidden" id="editar-id" name="id">
+      <div class="form-group">
+        <label for="editar-nombre">Nombre:</label>
+        <input type="text" id="editar-nombre" name="nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="editar-fecha">Fecha:</label>
+        <input type="date" id="editar-fecha" name="fecha" required>
+      </div>
+      <div class="form-group">
+        <label for="editar-hora">Hora:</label>
+        <input type="time" id="editar-hora" name="hora" required>
+      </div>
+      <div class="form-group">
+        <label for="editar-personas">Personas:</label>
+        <input type="number" id="editar-personas" name="personas" min="1" max="20" required>
+      </div>
+      <div class="buttons">
+        <button type="submit">Guardar cambios</button>
+        <button type="button" id="cancelar-edicion">Cancelar</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="mensaje" class="mensaje"></div>
+
+  <script>
+    // Cargar datos al cargar la página
+    document.addEventListener('DOMContentLoaded', cargarReservas);
+
+    // Función para cargar las reservas
+    async function cargarReservas() {
+      try {
+        const response = await fetch('/data');
+        const reservas = await response.json();
+
+        const tabla = document.getElementById('reservas-tabla');
+        const noReservas = document.getElementById('no-reservas');
+        const tbody = document.getElementById('reservas-body');
+
+        document.querySelector('.loading').style.display = 'none';
+
+        if (reservas.length === 0) {
+          noReservas.style.display = 'block';
+          tabla.style.display = 'none';
+          return;
+        }
+
+        tbody.innerHTML = '';
+        reservas.forEach(reserva => {
+          const row = document.createElement('tr');
+          const fecha = new Date(reserva.fecha).toLocaleDateString();
+
+          row.innerHTML = `
+                        <td>${reserva.id}</td>
+                        <td>${reserva.nombre}</td>
+                        <td>${fecha}</td>
+                        <td>${reserva.hora}</td>
+                        <td>${reserva.personas}</td>
+                        <td>
+                            <button class="btn-editar" data-id="${reserva.id}">Editar</button>
+                            <button class="btn-eliminar" data-id="${reserva.id}">Eliminar</button>
+                        </td>
+                    `;
+
+          tbody.appendChild(row);
+        });
+
+        tabla.style.display = 'table';
+
+        // Agregar event listeners a los botones
+        document.querySelectorAll('.btn-editar').forEach(btn => {
+          btn.addEventListener('click', (e) => mostrarFormularioEdicion(e.target.dataset.id));
+        });
+
+        document.querySelectorAll('.btn-eliminar').forEach(btn => {
+          btn.addEventListener('click', (e) => eliminarReserva(e.target.dataset.id));
+        });
+
+      } catch (error) {
+        document.querySelector('.loading').style.display = 'none';
+        mostrarMensaje('Error al cargar las reservas: ' + error.message, false);
+      }
+    }
+
+    // Función para mostrar el formulario de edición
+    async function mostrarFormularioEdicion(id) {
+      try {
+        const response = await fetch(`/data/${id}`);
+        const reserva = await response.json();
+
+        if (response.ok) {
+          document.getElementById('editar-id').value = reserva.id;
+          document.getElementById('editar-nombre').value = reserva.nombre;
+          document.getElementById('editar-fecha').value = reserva.fecha;
+          document.getElementById('editar-hora').value = reserva.hora;
+          document.getElementById('editar-personas').value = reserva.personas;
+
+          document.getElementById('form-edicion').style.display = 'block';
+
+          // Scroll al formulario de edición
+          document.getElementById('form-edicion').scrollIntoView({ behavior: 'smooth' });
+        } else {
+          mostrarMensaje('Error: ' + (reserva.error || 'No se pudo cargar la reserva'), false);
+        }
+      } catch (error) {
+        mostrarMensaje('Error al cargar la reserva: ' + error.message, false);
+      }
+    }
+
+    // Cancelar edición
+    document.getElementById('cancelar-edicion').addEventListener('click', () => {
+      document.getElementById('form-edicion').style.display = 'none';
+    });
+
+    // Guardar cambios en la edición
+    document.getElementById('editar-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const id = document.getElementById('editar-id').value;
+      const data = {
+        nombre: document.getElementById('editar-nombre').value,
+        fecha: document.getElementById('editar-fecha').value,
+        hora: document.getElementById('editar-hora').value,
+        personas: document.getElementById('editar-personas').value
+      };
+
+      try {
+        const response = await fetch(`/data/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          mostrarMensaje('Reserva actualizada con éxito', true);
+          document.getElementById('form-edicion').style.display = 'none';
+          cargarReservas(); // Recargar la tabla
+        } else {
+          mostrarMensaje('Error: ' + (result.error || 'No se pudo actualizar la reserva'), false);
+        }
+      } catch (error) {
+        mostrarMensaje('Error al actualizar la reserva: ' + error.message, false);
+      }
+    });
+
+    // Eliminar reserva
+    async function eliminarReserva(id) {
+      if (!confirm('¿Está seguro de que desea eliminar esta reserva?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/data/${id}`, {
+          method: 'DELETE'
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          mostrarMensaje('Reserva eliminada con éxito', true);
+          cargarReservas(); // Recargar la tabla
+        } else {
+          mostrarMensaje('Error: ' + (result.error || 'No se pudo eliminar la reserva'), false);
+        }
+      } catch (error) {
+        mostrarMensaje('Error al eliminar la reserva: ' + error.message, false);
+      }
+    }
+
+    // Función para mostrar mensajes
+    function mostrarMensaje(mensaje, esExito) {
+      const mensajeElement = document.getElementById('mensaje');
+      mensajeElement.textContent = mensaje;
+      mensajeElement.className = 'mensaje ' + (esExito ? 'exito' : 'error');
+
+      // Auto ocultar el mensaje después de 5 segundos
+      setTimeout(() => {
+        mensajeElement.textContent = '';
+      }, 5000);
+    }
+  </script>
+</body>
+
+</html>
