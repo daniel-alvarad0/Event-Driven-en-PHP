@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit7c38d1a861591745a9dafe63649f6d59
+class ComposerStaticInit1848cb9959e9527203f69c3ee98c91c2
 {
     public static $files = array (
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
@@ -97,8 +97,9 @@ class ComposerStaticInit7c38d1a861591745a9dafe63649f6d59
         'fe43ca06499ac37bc2dedd823af71eb5' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/zip.php',
         '356736db98a6834f0a886b8d509b0ecd' => __DIR__ . '/..' . '/thecodingmachine/safe/generated/zlib.php',
         '540044e0591873ddd06a920c6c94cf8f' => __DIR__ . '/..' . '/wyrihaximus/ticking-promise/src/functions_include.php',
-        '948ad5488880985ff1c06721a4e447fe' => __DIR__ . '/..' . '/cakephp/utility/bootstrap.php',
+        '72142d7b40a3a0b14e91825290b5ad82' => __DIR__ . '/..' . '/cakephp/core/functions.php',
         'cea474b4340aa9fa53661e887a21a316' => __DIR__ . '/..' . '/react/promise-stream/src/functions_include.php',
+        '948ad5488880985ff1c06721a4e447fe' => __DIR__ . '/..' . '/cakephp/utility/bootstrap.php',
         '972fda704d680a3a53c68e34e193cb22' => __DIR__ . '/..' . '/react/promise-timer/src/functions_include.php',
         'ccf53a9bad6a69f605fb25914c46b5e5' => __DIR__ . '/..' . '/wyrihaximus/json-utilities/src/functions_include.php',
         'cf4bfa4d38046a7a3a88d77ed9602837' => __DIR__ . '/..' . '/wyrihaximus/constants/src/Boolean/constants_include.php',
@@ -108,8 +109,8 @@ class ComposerStaticInit7c38d1a861591745a9dafe63649f6d59
         '7b57123961c149f9e408ff6aceaee3ee' => __DIR__ . '/..' . '/wyrihaximus/json-throwable/src/functions_include.php',
         '2cce0c19c44d4e6b9b83d392d5dcc239' => __DIR__ . '/..' . '/wyrihaximus/react-child-process-promise/src/functions_include.php',
         'e0925b39a86673e84a647fb972717393' => __DIR__ . '/..' . '/wyrihaximus/cpu-core-detector/src/functions_include.php',
-        '72142d7b40a3a0b14e91825290b5ad82' => __DIR__ . '/..' . '/cakephp/core/functions.php',
         'f3b28a95ab3f0417f7cb7996f4fa734a' => __DIR__ . '/..' . '/wyrihaximus/react-child-process-pool/src/functions_include.php',
+        '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '5e93f83f32d7c16b062898884b9a20d8' => __DIR__ . '/..' . '/react/filesystem/src/functions_include.php',
     );
 
@@ -150,6 +151,7 @@ class ComposerStaticInit7c38d1a861591745a9dafe63649f6d59
         'F' => 
         array (
             'Fig\\Http\\Message\\' => 17,
+            'FastRoute\\' => 10,
         ),
         'E' => 
         array (
@@ -164,6 +166,10 @@ class ComposerStaticInit7c38d1a861591745a9dafe63649f6d59
         array (
             'Cake\\Utility\\' => 13,
             'Cake\\Core\\' => 10,
+        ),
+        'A' => 
+        array (
+            'App\\' => 4,
         ),
     );
 
@@ -258,6 +264,10 @@ class ComposerStaticInit7c38d1a861591745a9dafe63649f6d59
         array (
             0 => __DIR__ . '/..' . '/fig/http-message-util/src',
         ),
+        'FastRoute\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nikic/fast-route/src',
+        ),
         'Evenement\\' => 
         array (
             0 => __DIR__ . '/..' . '/evenement/evenement/src',
@@ -277,6 +287,10 @@ class ComposerStaticInit7c38d1a861591745a9dafe63649f6d59
         'Cake\\Core\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/core',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
     );
 
@@ -374,9 +388,9 @@ class ComposerStaticInit7c38d1a861591745a9dafe63649f6d59
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit7c38d1a861591745a9dafe63649f6d59::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit7c38d1a861591745a9dafe63649f6d59::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit7c38d1a861591745a9dafe63649f6d59::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit1848cb9959e9527203f69c3ee98c91c2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit1848cb9959e9527203f69c3ee98c91c2::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit1848cb9959e9527203f69c3ee98c91c2::$classMap;
 
         }, null, ClassLoader::class);
     }

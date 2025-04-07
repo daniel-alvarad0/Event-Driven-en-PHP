@@ -8,7 +8,7 @@ use WyriHaximus\React\ChildProcess\Messenger\ChildProcess\Factory;
  */
 (function() {
     foreach ([
-        'C:\Users\danie\OneDrive\Imágenes\Documentos\GitHub _Desktop\Event-Driven-en-PHP/vendor\autoload.php',
+        '/Applications/XAMPP/xamppfiles/htdocs/Event-Driven-en-PHP/vendor/autoload.php',
         dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'vendor.php',
         dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . 'autoload.php',
     ] as $path) {

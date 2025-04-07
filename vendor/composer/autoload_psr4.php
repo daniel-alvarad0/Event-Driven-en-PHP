@@ -28,9 +28,11 @@ return array(
     'React\\Cache\\' => array($vendorDir . '/react/cache/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Fig\\Http\\Message\\' => array($vendorDir . '/fig/http-message-util/src'),
+    'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Evenement\\' => array($vendorDir . '/evenement/evenement/src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Inflector'),
     'Cake\\Utility\\' => array($vendorDir . '/cakephp/utility'),
     'Cake\\Core\\' => array($vendorDir . '/cakephp/core'),
+    'App\\' => array($baseDir . '/src'),
 );
